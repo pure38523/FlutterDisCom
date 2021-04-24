@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dsc_project/page_example_loadData.dart';
+import 'package:flutter_dsc_project/page_example_loadData_guess.dart';
 import 'package:flutter_dsc_project/page_two.dart';
 
 
@@ -12,13 +13,14 @@ class RouterManager extends StatefulWidget {
 class _RouterManagerState extends State<RouterManager> {
   final Key keyOne = PageStorageKey('pageOne');
   final Key keyTwo = PageStorageKey('pageTwo');
-
+  final Key keyThree = PageStorageKey('pageThree');
 
   int currentTab = 0;
 
   //page that want to load
   PageExampleLoadDataItem one;
   PageTwo two;
+  PageExampleLoadDataItemGuess three;
 
   List<Widget> pages;
   Widget currentPage;
@@ -35,10 +37,14 @@ class _RouterManagerState extends State<RouterManager> {
     two = PageTwo(
       key: keyTwo,
     );
+    three = PageExampleLoadDataItemGuess(
+      key : keyThree,
+    )
+    ;
 
 
 
-    pages = [one,two];
+    pages = [one,two, three];
 
     currentPage = one;
 
@@ -48,9 +54,9 @@ class _RouterManagerState extends State<RouterManager> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("S23d School"),
-      ),
+      // appBar: AppBar(
+      //   title: Text("S23d School"),
+      // ),
       body: PageStorage(
         child: currentPage,
         bucket: bucket,
@@ -65,12 +71,12 @@ class _RouterManagerState extends State<RouterManager> {
         },
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard),
-            title: Text('List'),
+            icon: Icon(Icons.assessment_sharp),
+            title: Text('Student List'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
-            title: Text("Account"),
+            title: Text("My Account"),
           ),
 
         ],

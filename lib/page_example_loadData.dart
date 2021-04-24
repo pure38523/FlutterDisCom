@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/rendering/box.dart';
 import 'package:http/http.dart' as http;
+import 'custom_dialog_box.dart';
 import 'model/modelMock.dart';
 
 class PageExampleLoadDataItem extends StatefulWidget {
@@ -19,9 +20,14 @@ class PageExampleLoadDataItem extends StatefulWidget {
 }
 
 class PageExampleLoadDataItemState extends State<PageExampleLoadDataItem> {
-  List<String> items = ["AA", "BB", "CC", "DD", "EE", "FF", "GG", "HH"];
+  // List<String> items = ["AA", "BB", "CC", "DD", "EE", "FF", "GG", "HH"];
   List<ModelMock> _transactions = [];
-  bool _lights = false;
+
+  @override
+  void initState() {
+    _transactions = _getdata();
+    super.initState();
+  }
 
   // void _detailPage() {
   //   Navigator.push(
@@ -30,7 +36,7 @@ class PageExampleLoadDataItemState extends State<PageExampleLoadDataItem> {
   //   );
   // }
 
-  void _getdata() {
+  List _getdata() {
     http
         .get(
       //get ไปเอาข้อมูลที่เดิม แต่ส่งแบบ get แทน
@@ -64,55 +70,50 @@ class PageExampleLoadDataItemState extends State<PageExampleLoadDataItem> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: SingleChildScrollView(
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+          floatingActionButton: FloatingActionButton.extended(
+              onPressed:(){
+                showCustomDialogBox(context);
+              },
+            label: Text('Add'),
+            icon: Icon(Icons.add),
+          ),
+         body: SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
             child: Column(
-          children: <Widget>[
-            Container(
-              margin: const EdgeInsets.only(top: 10.0, bottom: 20.0),
-              child: Text(
-                'Please click to download.',
-                style: TextStyle(fontSize: 20.0),
-              ),
-            ),
-            RaisedButton(
-              onPressed: _getdata,
-              child: Text('Load data', style: TextStyle(fontSize: 20)),
-            ),
-            GridView.count(
-              shrinkWrap: true,
-              crossAxisCount: 2,
-              children: _transactions.map((item) {
-                return InkWell(
-                    onTap: _getdata,
-                    child: Card(
-                        child: Column(children: [
-                      ListTile(
-                        title: Text(item.title,
-                            style: TextStyle(fontWeight: FontWeight.w500)),
-                        subtitle: Text(item.description),
-                        leading: null,
-                      ),
-                      SwitchListTile(
-                        title: null,
-                        value: _lights,
-                        onChanged: (bool value) {
-                          // setState(() {
-                          //   _lights = value;
-                          // });
-                        },
-                        secondary: const Icon(Icons.lightbulb_outline),
-                      ),
-                    ]
-                        )
-                    )
-                );
-              }).toList(),
-            ),
-            SizedBox(
-              height: 10,
-            )
-          ],
-        )),
+              children: <Widget>[
+                Column(
+                  children: _transactions
+                          ?.map(
+                            (entry) => new ListTile(
+                              leading: Container(
+                                padding: EdgeInsets.only(right: 12.0),
+                                decoration: new BoxDecoration(
+                                    border: new Border(
+                                        right: new BorderSide(
+                                            width: 1.0,
+                                            color: Colors.blueGrey))),
+                                child: CircleAvatar(
+                                  backgroundImage: NetworkImage(
+                                      "https://www.pngfind.com/pngs/m/470-4703547_icon-user-icon-hd-png-download.png"),
+                                ),
+                              ),
+                              contentPadding: const EdgeInsets.all(16.0),
+                              title: Text(entry.description),
+                              subtitle: Text(entry.title.toString()),
+                              trailing: Icon(Icons.keyboard_arrow_right),
+                              onTap: () {
+                                print("test");
+                              },
+                              // selected: false,
+                            ),
+                          )
+                          ?.toList() ??
+                      [],
+                ),
+
+              ],
+            )),
       ),
     );
   }
@@ -124,4 +125,23 @@ class Data {
   final String title;
 
   Data(this.id, this.expanded, this.title);
+}
+
+showCustomDialogBox(BuildContext context) {
+  return showGeneralDialog(
+      context: context,
+      barrierLabel: '',
+      barrierColor: Colors.black.withOpacity(0.5),
+      transitionDuration: Duration(milliseconds: 300),
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        return ScaleTransition(
+          child: child,
+          scale: Tween<double>(end: 1.0, begin: 0).animate(CurvedAnimation(
+              parent: animation,
+              curve: Interval(0.00, 0.50, curve: Curves.linear))),
+        );
+      },
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return CustomDialogBox();
+      });
 }

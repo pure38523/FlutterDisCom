@@ -1,8 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:progress_state_button/iconed_button.dart';
 import 'package:progress_state_button/progress_button.dart';
 import 'router_page.dart';
 import 'dart:math';
+import 'package:http/http.dart' as http;
+import 'model/modelMock.dart';
+
+
 void main() {
   runApp(MyApp());
 }
@@ -34,6 +40,8 @@ class _MyHomePageState extends State<MyHomePage> {
   ButtonState stateOnlyText = ButtonState.idle;
   ButtonState stateTextWithIcon = ButtonState.idle;
   ButtonState stateTextWithIconMinWidthState = ButtonState.idle;
+  List<ModelMock> _transactions = [];
+
 
   void _login() {
     //implement function here
@@ -47,8 +55,43 @@ class _MyHomePageState extends State<MyHomePage> {
     //       // print("##object");
     //       print(value.body);
     //       });
+
+    // _getdata();
   }
 
+  /*
+  void _getdata() {
+    http
+        .get(
+      //get ไปเอาข้อมูลที่เดิม แต่ส่งแบบ get แทน
+      Uri.parse(
+          "https://labtest-68c7d-default-rtdb.firebaseio.com/teamsoft.json"), //return Futre <Response> --> เอา data จาก future ใข้ .then
+    )
+        .then((response) {
+      print(response.body); // ไดข้อมูลมาแล้วว จาก console ด้านล่าง
+      final extractedData = json.decode(response.body) as Map<String,
+          dynamic>; //parse data จาก firebase ไปใส่ใน list  ของ object ก๊อปไปได้เลย ใช้ http get นะ
+      final List<ModelMock> transaction = [];
+      extractedData.forEach((prodId, prodData) {
+        // loop key value ทื่ได้มาแล้วค่อยไปใส่ใน transaction หรือ ใน list ของ object ของเรา ให้ถูกต้อง
+        // print("ProductData: $prodData");
+        transaction.add(ModelMock(
+          // ปรับแค่ตอนสร้าง object
+            description: prodData['description'],
+            title: prodData['title'],
+            date: DateTime.now(),
+            id: prodData['id']));
+
+        setState(() {
+          this._transactions = transaction;
+        });
+      });
+      print(transaction);
+    });
+  }
+
+
+*/
 
   Widget buildLoginButton() {
     return ProgressButton.icon(iconedButtons: {
