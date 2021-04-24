@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dsc_project/page_example_loadData_guess.dart';
 import 'package:progress_state_button/iconed_button.dart';
 import 'package:progress_state_button/progress_button.dart';
 import 'router_page.dart';
@@ -40,7 +41,15 @@ class _MyHomePageState extends State<MyHomePage> {
   ButtonState stateOnlyText = ButtonState.idle;
   ButtonState stateTextWithIcon = ButtonState.idle;
   ButtonState stateTextWithIconMinWidthState = ButtonState.idle;
-  List<ModelMock> _transactions = [];
+
+  void _loginGuest() {
+    //implement function here
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PageExampleLoadDataItemGuess()),
+    );
+  }
+
 
 
   void _login() {
@@ -92,6 +101,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
 */
+
+
+
+
 
   Widget buildLoginButton() {
     return ProgressButton.icon(iconedButtons: {
@@ -271,7 +284,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             color: Colors.white,
                           ),
                           color: Colors.green.shade400)
-                    }, onPressed: _login, state: ButtonState.idle)),
+                    }, onPressed: _loginGuest, state: ButtonState.idle)),
               ],
             ),
           ),

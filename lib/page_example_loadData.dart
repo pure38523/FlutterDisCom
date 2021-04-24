@@ -21,12 +21,15 @@ class PageExampleLoadDataItem extends StatefulWidget {
 
 class PageExampleLoadDataItemState extends State<PageExampleLoadDataItem> {
   // List<String> items = ["AA", "BB", "CC", "DD", "EE", "FF", "GG", "HH"];
-  List<ModelMock> _transactions = [];
+  List<ModelMock> _transactions = [];                                           ////Edit Adap model class which should be our data
+  var isOwner ;
+
 
   @override
   void initState() {
-    _transactions = _getdata();
+    _transactions = _getdata();                                                 // receive data from api when start app
     super.initState();
+
   }
 
   // void _detailPage() {
@@ -36,7 +39,7 @@ class PageExampleLoadDataItemState extends State<PageExampleLoadDataItem> {
   //   );
   // }
 
-  List _getdata() {
+  List _getdata() {                                                             // get data from api
     http
         .get(
       //get ไปเอาข้อมูลที่เดิม แต่ส่งแบบ get แทน
@@ -68,15 +71,20 @@ class PageExampleLoadDataItemState extends State<PageExampleLoadDataItem> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    isOwner = true;                                //// Edit State when login checking user type that true or false
+
+    return
+      SafeArea(
       child: Scaffold(
           floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-          floatingActionButton: FloatingActionButton.extended(
-              onPressed:(){
-                showCustomDialogBox(context);
-              },
-            label: Text('Add'),
-            icon: Icon(Icons.add),
+          floatingActionButton: Visibility(       //// Implement here- Edit State when login checking user type that true or false
+            child: FloatingActionButton(
+              child: Icon(Icons.add),
+                onPressed:(){
+                  showCustomDialogBox(context);
+                },
+            ),
+            visible: isOwner,
           ),
          body: SingleChildScrollView(
             padding: const EdgeInsets.all(16.0),

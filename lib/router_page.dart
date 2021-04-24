@@ -44,7 +44,9 @@ class _RouterManagerState extends State<RouterManager> {
 
 
 
-    pages = [one,two, three];
+    pages = [one,two,
+      three
+    ];
 
     currentPage = one;
 
@@ -72,7 +74,7 @@ class _RouterManagerState extends State<RouterManager> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.assessment_sharp),
-            title: Text('Student List'),
+            title: Text('File List'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),

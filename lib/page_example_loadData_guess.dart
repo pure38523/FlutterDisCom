@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/rendering/box.dart';
+import 'package:flutter_dsc_project/page_example_loadData.dart';
+import 'package:flutter_dsc_project/router_page.dart';
 import 'package:http/http.dart' as http;
 import 'custom_dialog_box.dart';
 import 'model/modelMock.dart';
@@ -23,11 +25,27 @@ class PageExampleLoadDataItemGuessState extends State<PageExampleLoadDataItemGue
   // List<String> items = ["AA", "BB", "CC", "DD", "EE", "FF", "GG", "HH"];
   List<ModelMock> _transactions = [];
 
+
   @override
   void initState() {
     _transactions = _getdata();
     super.initState();
   }
+
+
+  void _navigateToStudent() {
+    //implement function here
+    print("Holyshit");
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PageExampleLoadDataItem()),
+    );
+    print("Holyshit2");
+
+  }
+
+
 
   // void _detailPage() {
   //   Navigator.push(
@@ -95,7 +113,8 @@ class PageExampleLoadDataItemGuessState extends State<PageExampleLoadDataItemGue
                       subtitle: Text(entry.title.toString()),
                       trailing: Icon(Icons.keyboard_arrow_right),
                       onTap: () {
-                        print("test");
+                        _navigateToStudent();
+                        print("testza");
                       },
                       // selected: false,
                     ),
