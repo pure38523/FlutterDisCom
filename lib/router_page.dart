@@ -4,12 +4,12 @@ import 'package:flutter_dsc_project/page_two.dart';
 
 
 
-class SecondRoute extends StatefulWidget {
+class RouterManager extends StatefulWidget {
   @override
-  _SecondRouteState createState() => _SecondRouteState();
+  _RouterManagerState createState() => _RouterManagerState();
 }
 
-class _SecondRouteState extends State<SecondRoute> {
+class _RouterManagerState extends State<RouterManager> {
   final Key keyOne = PageStorageKey('pageOne');
   final Key keyTwo = PageStorageKey('pageTwo');
 
@@ -49,7 +49,7 @@ class _SecondRouteState extends State<SecondRoute> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Smart Control"),
+        title: Text("S23d School"),
       ),
       body: PageStorage(
         child: currentPage,
@@ -66,16 +66,13 @@ class _SecondRouteState extends State<SecondRoute> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.dashboard),
-            title: Text('Sensor'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.build),
-            title: Text("Controller"),
+            title: Text('List'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
             title: Text("Account"),
           ),
+
         ],
       ),
     );

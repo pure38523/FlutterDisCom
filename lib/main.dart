@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'router.dart';
+import 'package:progress_state_button/iconed_button.dart';
+import 'package:progress_state_button/progress_button.dart';
+import 'router_page.dart';
+import 'dart:math';
 void main() {
   runApp(MyApp());
 }
@@ -14,7 +17,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Login'),
     );
   }
 }
@@ -28,11 +31,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  ButtonState stateOnlyText = ButtonState.idle;
+  ButtonState stateTextWithIcon = ButtonState.idle;
+  ButtonState stateTextWithIconMinWidthState = ButtonState.idle;
 
-  void _login() {   //implement function here
+  void _login() {
+    //implement function here
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => SecondRoute()),
+      MaterialPageRoute(builder: (context) => RouterManager()),
     );
     // http
     //     .get('https://labflutter-3b9e2.firebaseio.com/user.json')
@@ -42,62 +49,225 @@ class _MyHomePageState extends State<MyHomePage> {
     //       });
   }
 
+
+  Widget buildLoginButton() {
+    return ProgressButton.icon(iconedButtons: {
+      ButtonState.idle: IconedButton(
+          text: "Sign in",
+          icon: Icon(Icons.send, color: Colors.white),
+          color: Colors.blueAccent),
+      ButtonState.loading:
+      IconedButton(text: "Loading", color: Colors.lightBlue),
+      ButtonState.fail: IconedButton(
+          text: "Failed",
+          icon: Icon(Icons.cancel, color: Colors.white),
+          color: Colors.red.shade300),
+      ButtonState.success: IconedButton(
+          text: "",
+          icon: Icon(
+            Icons.check_circle,
+            color: Colors.white,
+          ),
+          color: Colors.green.shade400)
+    }, onPressed: onPressedLoginAdminButton, state: stateTextWithIcon);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                margin: const EdgeInsets.only(bottom: 20.0),
-                child: Image.network(
-                  'https://picsum.photos/250?image=9',
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                CircleAvatar(
+                  radius: 50.0,
+                  backgroundImage:
+                      NetworkImage("https://img.icons8.com/ios/452/school.png"),
+                  backgroundColor: Colors.transparent,
                 ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 10.0, bottom: 20.0),
-                child: Text(
-                  'Singin',
-                  style: TextStyle(fontSize: 30.0),
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(
-                    top: 10.0, bottom: 5.0, right: 16.0, left: 16.0),
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Email',
+                Text(
+                  "Sign In",
+                  style: TextStyle(
+                    fontFamily: 'Pacifico',
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blueAccent,
                   ),
                 ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(
-                    top: 5.0, bottom: 20.0, right: 16.0, left: 16.0),
-                child: TextField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Password',
+                Text(
+                  "S23d Project",
+                  style: TextStyle(
+                      fontFamily: 'SansPro',
+                      fontSize: 12,
+                      color: Colors.blueAccent.shade200,
+                      letterSpacing: 2.5,
+                      fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 60,
+                  width: 150,
+                  child: Divider(
+                    color: Colors.blueAccent.shade700,
                   ),
                 ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 10.0, bottom: 20.0),
-                child: RaisedButton(
-                  onPressed: _login,
-                  child: Text('Login', style: TextStyle(fontSize: 20)),
+                Card(
+                  color: Colors.white,
+                  margin:
+                      EdgeInsets.symmetric(vertical: 10.00, horizontal: 20.00),
+                  child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListTile(
+                        leading: Icon(
+                          Icons.account_circle,
+                          size: 40,
+                          color: Colors.blueAccent,
+                        ),
+                        title: new TextFormField(
+                          decoration: new InputDecoration(
+                            labelText: "Enter Username",
+                            fillColor: Colors.transparent,
+                            border: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(25.0),
+                              borderSide: new BorderSide(),
+                            ),
+                            //fillColor: Colors.green
+                          ),
+                          validator: (val) {
+                            if (val.length == 0) {
+                              return "Email cannot be empty";
+                            } else {
+                              return null;
+                            }
+                          },
+                          keyboardType: TextInputType.emailAddress,
+                          style: new TextStyle(
+                            fontFamily: "Poppins",
+                          ),
+                        ),
+                      )),
                 ),
-              ),
-            ],
+                Card(
+                  color: Colors.white,
+                  margin:
+                      EdgeInsets.symmetric(vertical: 10.00, horizontal: 20.00),
+                  child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListTile(
+                        leading: Icon(
+                          Icons.security,
+                          size: 40,
+                          color: Colors.blueAccent,
+                        ),
+                        title: new TextFormField(
+                          obscureText: true,
+                          decoration: new InputDecoration(
+                            labelText: "Enter Password",
+                            fillColor: Colors.transparent,
+                            border: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(25.0),
+                              borderSide: new BorderSide(),
+                            ),
+                            //fillColor: Colors.green
+                          ),
+                          validator: (val) {
+                            if (val.length == 0) {
+                              return "Email cannot be empty";
+                            } else {
+                              return null;
+                            }
+                          },
+                          keyboardType: TextInputType.emailAddress,
+                          style: new TextStyle(
+                            fontFamily: "Poppins",
+                          ),
+                        ),
+                      )),
+                ),
+                Center(
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 50.0, bottom: 20.0),
+
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        // buildCustomButton(),
+                        Container(
+                          height: 32,
+                        ),
+                        buildLoginButton(),
+                        Container(
+                          height: 32,
+                        ),
+                        // buildTextWithIconWithMinState(),
+                      ],
+                    ),
+
+                  ),
+                ),
+                Container(
+                    margin: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+                    child: ProgressButton.icon(iconedButtons: {
+                      ButtonState.idle: IconedButton(
+                          text: "Login as guest",
+                          icon: Icon(Icons.account_balance, color: Colors.white),
+                          color: Colors.transparent),
+                      ButtonState.loading: IconedButton(
+                          text: "Loading", color: Colors.deepPurple.shade700),
+                      ButtonState.fail: IconedButton(
+                          text: "Failed",
+                          icon: Icon(Icons.cancel, color: Colors.white),
+                          color: Colors.red.shade300),
+                      ButtonState.success: IconedButton(
+                          text: "Success",
+                          icon: Icon(
+                            Icons.check_circle,
+                            color: Colors.white,
+                          ),
+                          color: Colors.green.shade400)
+                    }, onPressed: _login, state: ButtonState.idle)),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
+
+  void onPressedLoginAdminButton() {  //back implement here
+    switch (stateTextWithIcon) {
+      case ButtonState.idle:
+        stateTextWithIcon = ButtonState.loading;
+        Future.delayed(Duration(seconds: 1), () {
+          setState(() {
+            stateTextWithIcon = Random.secure().nextBool()
+                ? ButtonState.success
+                : ButtonState.fail;
+          });
+        });
+
+        break;
+      case ButtonState.loading:
+        break;
+      case ButtonState.success:
+        stateTextWithIcon = ButtonState.idle;
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => RouterManager()),
+        );
+        break;
+      case ButtonState.fail:
+        stateTextWithIcon = ButtonState.idle;
+        break;
+    }
+    setState(() {
+      stateTextWithIcon = stateTextWithIcon;
+    });
+  }
+
+
 }
+
