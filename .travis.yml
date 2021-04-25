@@ -2,3 +2,11 @@ anguage: dart
 dart:
 # Install the latest stable release
   - stable
+install:
+  # https://flutter.dev/docs/get-started/web
+  - echo "Configure Flutter"
+  - git clone https://github.com/flutter/flutter.git -b beta
+  - export PATH="$PATH:`pwd`/flutter/bin"
+  - flutter upgrade
+  - flutter config --enable-web
+  - flutter doctor
