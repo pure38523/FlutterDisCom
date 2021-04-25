@@ -13,4 +13,12 @@ install:
 script:
   - echo "Building..."
   - flutter create flutter_dsc_project
-#   - flutter run -d chrome
+
+deploy:
+  provider: firebase
+  token:
+    secure: "DsLBCjAwfbI9CsuOL+OVstd4fkRucVXHu3/9AOvU1mrS3I67503m47bdBbBKY5Wb1b/2iKvFzk8MOPQxA7wyxy+7Tam7a9aAB59G5WZtuYwSSGvU4kaDx4rhLHq0Ya+Xu5JGMiMMK7pCf8q33AWeoFfMXpb2v6ZvO26zKZd2NqGUKnnuCxMY5ks0mnqsJEZD9rq3xkyXot9Mgtvj1C8TrnIBsahDqMPwKWZJOadekNU2349zaW07B2FPzal17SBFj+rrxWsUIVvjYs26096o56MYdpavObb5Y1RaK6svncQkw8DBhGVy4btVKjMveLwI9ZoLA1rH4ggo8P5I6HqCWxCEU/TJ7Z2BkGbyzD9ezBgLmwiE1e8AZ7WcGsUTh6c340PLv2raijqRyppkCNzTREO4Plp5Y5KitQSfqlwIUsilf/YzidEnpHHLWl2E8HxhgOqVTQ1R55Gvt5C2atsYEyLvqnNrVpNZYv+Myr3DyjxxqLWJD14zqWSF6C9NK4SDaq6wJ4naJ1x/1fh4Q8R88OUckVkbjIAiDHrEczQdyEZZdYhdkl9+PLlDla3eLlxSigRaMUuOG8faQmsPEzHRY5iMd1E/0wUmyVkefHGBlL21kAVzDEe03rWB+HXHv/HeiHxpTYWT1TGDxIyL6qalER/JKNHIqTa7JyNG+lE0qao="
+  project: "flutter_dsc_project"
+  #skip cleanup true. otherwise, it will clean project up before deploy
+  skip_cleanup: true 
+  
