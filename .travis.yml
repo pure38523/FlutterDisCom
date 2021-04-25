@@ -10,3 +10,6 @@ install:
   - flutter upgrade
   - flutter config --enable-web
   - flutter doctor
+script:
+  - echo "Building..."
+  - flutter build web
