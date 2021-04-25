@@ -12,6 +12,5 @@ install:
   - flutter doctor
 script:
   - echo "Building..."
-  - flutter config --enable-web
   - flutter create flutter_dsc_project
 #   - flutter run -d chrome
